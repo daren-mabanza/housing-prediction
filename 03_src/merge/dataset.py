@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 import duckdb
 import great_expectations as gx
-from cheat_tools.data_manipulation import multi_astype, multi_zfill
+from cheat_tools.data_manipulation import multi_astype, multi_zfill, mapping_taille_agglomeration, mapping_taille_pole_et_couronne
 from cheat_tools.geo_localisation import matching_coords_code_insee, calcul_proximite_services
 from cheat_tools.data_quality import initialisation_gx, afficher_resultats_validation
 
@@ -267,9 +267,11 @@ def fusion_donnees_externes(data):
     
     data = data[variables]
 
+    mapping_taille_pole_et_couronne(data)
+    mapping_taille_agglomeration(data)
+
     multi_astype(data,["code_insee","id_annonce"],"string")
     multi_astype(data, list(data.select_dtypes("object").columns) + ["property_type"], "category")
- 
 
     print("Renommages et modifications des types : OK")
     print("="*50)
@@ -292,7 +294,7 @@ def fusion_donnees_externes(data):
     validator.expect_column_value_lengths_to_be_between('code_insee', 5, 5)
     validator.expect_column_value_lengths_to_be_between('id_annonce', 5, 5)
 
-        # Validation des résultats et xxport de la table sous condition de validité des données
+        # Validation des résultats et export de la table sous condition de validité des données
     results = validator.validate()
 
     afficher_resultats_validation(results)

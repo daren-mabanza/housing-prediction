@@ -1,19 +1,9 @@
 # ==================================
-# Nom des fonctions
-# ==================================
-# multi_astype : Convertit le type de plusieurs colonnes d'un DataFrame
-# multi_zfill : Formate des colonnes de codes en ajoutant des zeros devant
-# imputation_modalite : Impute les valeurs manquantes de PLUSIEURS variables en utilisant une statistique par groupe.
-# missing_percentage : Calcule le pourcentage de valeurs manquantes pour les variables spécifiées.
-# ==================================
 # Packages nécéssaires 
 # ==================================
 import pandas as pd
 from typing import Union, List
-
-
 # ==================================
-
 
 # ==================================
 # multi_astype
@@ -78,8 +68,6 @@ def multi_astype(df, columns, dtype, inplace=True):
     
     # Résout le type
     target_dtype = type_mapping.get(dtype, dtype)
-    
-    print(f"Conversion de {len(columns)} colonne(s) en type '{dtype}'...\n")
     
     # Conversion avec gestion d'erreurs
     errors = []
@@ -220,5 +208,60 @@ def missing_percentage(data):
     df = pd.DataFrame(df).reset_index().rename(columns={"index":"features"})
 
     return df
+
+
+
+# ===================================
+# mapping_taille_agglomeration
+# ===================================
+
+def mapping_taille_agglomeration(df, colonne='taille_agglomeration'):
+    """
+    Simplifie les noms des modalités (version simple : mapping direct).
+    """
+    mapping_agglo = {
+        "Commune appartenant à l'unité urbaine de Paris": "Paris (Agglo)",
+        "Commune appartenant à une unité urbaine de 200 000 à 1 999 999 habitants": "200k - 2M hab",
+        "Commune appartenant à une unité urbaine de 100 000 à 199 999 habitants": "100k - 200k hab",
+        "Commune appartenant à une unité urbaine de 50 000 à 99 999 habitants": "50k - 100k hab",
+        "Commune appartenant à une unité urbaine de 20 000 à 49 999 habitants": "20k - 50k hab",
+        "Commune appartenant à une unité urbaine de 10 000 à 19 999 habitants": "10k - 20k hab",
+        "Commune appartenant à une unité urbaine de 5 000 à 9 999 habitants": "5k - 10k hab",
+        "Commune appartenant à une unité urbaine de 2 000 à 4 999 habitants": "2k - 5k hab",
+        "Commune hors unité urbaine": "Rural / Hors Agglo"
+    }
+
+    # On convertit d'abord en string pour être sûr que le replace fonctionne
+    # Puis on remplace les valeurs selon le dictionnaire
+    df[colonne] = df[colonne].astype(str).replace(mapping_agglo)
+    
+    print(f"Transformation de '{colonne}' effectuée.")
+
+# Utilisation
+# mapping_taille_agglomeration(df)
+
+
+# ===================================
+# mapping_taille_pole_et_couronne
+# ===================================
+
+def mapping_taille_pole_et_couronne(df, colonne='taille_pole_et_couronne'):
+    """
+    Simplifie les noms des modalités (version simple : mapping direct).
+    """
+    mapping_dict = {
+        "Aire de Paris": "Aire de Paris",
+        "Aire de 700 000 habitants ou plus (hors Paris)": "Aire 700k+ (hors Paris)",
+        "Aire de 200 000 à moins de 700 000 habitants": "Aire 200k - 700k",
+        "Aire de 50 000 à moins de 200 000 habitants": "Aire 50k - 200k",
+        "Aire de moins de 50 000 habitants": "Aire < 50k",
+        "Commune hors attraction des villes": "Hors Attraction Villes"
+    }
+
+    # On convertit en string et on remplace ce qui correspond au dico
+    # Ce qui n'est pas dans le dico reste inchangé
+    df[colonne] = df[colonne].astype(str).replace(mapping_dict)
+
+    print(f"Transformation de '{colonne}' effectuée.")
 
 
