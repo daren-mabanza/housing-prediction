@@ -265,3 +265,39 @@ def mapping_taille_pole_et_couronne(df, colonne='taille_pole_et_couronne'):
     print(f"Transformation de '{colonne}' effectuée.")
 
 
+import pandas as pd
+
+def fillna_multi(df, cols, value):
+    """
+    Remplit les NaN sur plusieurs colonnes avec une même valeur.
+
+    Paramètres
+    ----------
+    df : pd.DataFrame
+        DataFrame à modifier (modifié en place).
+    cols : str ou list of str
+        Nom ou liste de noms de colonnes à remplir.
+    value : any
+        Valeur de remplacement (ex: "Missing", 0, "NA", etc.).
+
+    Retour
+    ------
+    df : pd.DataFrame
+        Le DataFrame (même objet) avec NaN remplacés sur les colonnes ciblées.
+    """
+
+    if isinstance(cols, str):
+        cols = [cols]
+
+    # Vérif basique
+    for c in cols:
+        if c not in df.columns:
+            raise ValueError(f"La colonne '{c}' n'existe pas dans le DataFrame.")
+
+    df[cols] = df[cols].fillna(value)
+
+    print("Remplissage des NaN effectué sur :")
+    for c in cols:
+        print(f"  - {c} -> '{value}'")
+
+

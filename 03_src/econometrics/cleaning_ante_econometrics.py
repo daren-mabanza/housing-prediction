@@ -66,7 +66,9 @@ def nettoyage_post_eda():
     # Nettoyage des valeurs incohérentes pour "size" et "property_type" | selection des colonnes d'interet et renommage des variables (size_corrige --> size | nb_rooms_corrige --> nb_rooms)
     df["property_type"] = np.where(df["property_type"]=="viager","appartement",df["property_type"])
 
-    print("Passage de viager en appartement : OK")
+    df = df[~df["property_type"].isin(["divers", "hôtel", "parking", "terrain", "terrain à bâtir"])]
+
+    print("Passage de viager en appartement + suppression de la modalité divers : OK")
     print("="*50)
 
     con = duckdb.connect()

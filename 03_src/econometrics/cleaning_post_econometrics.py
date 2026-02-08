@@ -6,13 +6,13 @@ import pandas as pd
 import numpy as np
 
 chemin_repo = Path(r"C:\Users\user\Desktop\data_science_documents\data_science_projets_perso\projet_housing_prediction\housing-prediction")
-
+# RAJOUTER DES LOGS
 
 def data_post_econometrie():
 
     # Import des données 
 
-    data_housing = pd.read_csv(f"{chemin_repo}/01_data/02_processed/01_merge/housing_open_data_processed.csv",
+    data_housing = pd.read_csv(f"{chemin_repo}/01_data/02_processed/02_eda/housing_data_eda_processed.csv",
                            dtype={'id_annonce':"object"})
     
     df = data_housing.copy()

@@ -88,7 +88,7 @@ def requete_nettoyage_post_eda():
                             
                 from deuxieme_jointure
 
-                where property_type not in ('divers','parking','terrain','terrain à bâtir')
+                where property_type not in ('divers','parking','terrain','terrain à bâtir','hôtel')
 
             ),
 
@@ -254,7 +254,9 @@ def requete_nettoyage_post_eda():
                 
                 )
                     select *
-                    from gestion_size"""
+                    from gestion_size
+                    where property_type not in ('divers','parking','terrain','terrain à bâtir','hôtel')
+                    """
     
 
     return requete
