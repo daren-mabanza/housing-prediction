@@ -100,7 +100,7 @@ La modélisation repose sur une **régression logistique pénalisée (L2)** int�
 
 ---
 
-## Courbes ROC et calibration
+## Courbes ROC & Courbes de calibration
 
 <p align="center">
   <img src="05_visualisations/courbe_roc.png" width="600"/>
