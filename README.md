@@ -37,7 +37,7 @@ Chaque étape est validée avant de passer à la suivante.
 - `02_notebooks/` → Exploration, économétrie, ML, SHAP  
 - `03_fonctions/` → Modules Python (logique métier réutilisable)  
 - `04_model/` → Modèle entraîné sauvegardé  
-- `05_visualisations/` → Figures utilisées dans le README  
+- `05_visualisations/` → Graphiques 
 
 ### Détail des notebooks – `02_notebooks/`
 
