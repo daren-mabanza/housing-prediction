@@ -85,7 +85,7 @@ L’objectif est de sécuriser la donnée avant toute modélisation.
 
 La modélisation repose sur une **régression logistique pénalisée (L2)** intégrée dans une pipeline scikit-learn complète :
 
-- Imputation des valeurs manquantes (`IterativeImputer`)  
+- Imputation des valeurs manquantes via XGBoost (`IterativeImputer`)  
 - Encodage des variables catégorielles en One-Hot  
 - Standardisation des variables numériques  
 - Optimisation des hyperparamètres via `RandomizedSearchCV`  
