@@ -1,174 +1,164 @@
-# Projet de Classification de Biens Immobiliers : Workflow Data Science Complet
+# Projet de Classification de Biens Immobiliers  
+### Workflow Data Science Complet – De la donnée brute au modèle interprétable
 
-## Présentation du projet
+## Présentation
 
-Ce projet a pour objectif de prédire si un bien immobilier appartient à la catégorie des biens à prix élevé à partir :
+Ce projet vise à prédire si un bien immobilier appartient à la catégorie des biens à prix élevé à partir :
 
-- des caractéristiques intrinsèques du bien (surface, nombre de pièces, type de bien, etc.),
+- des caractéristiques intrinsèques du bien (surface, nombre de pièces, type de bien),
 - du contexte socio-économique local (revenu médian, population, criminalité),
-- d’indicateurs d’attractivité territoriale (tourisme, densité de services),
-- et de données open data issues de data.gouv (INSEE, statistiques locales, équipements publics).
+- d’indicateurs d’attractivité territoriale,
+- et de données open data issues de data.gouv (INSEE, statistiques locales, Base Permanente des Équipements).
 
-L’ambition n’est pas uniquement prédictive. Le projet est conçu comme un **workflow data science structuré**, allant de la donnée brute à un modèle interprétable et industrialisable.
-
----
-
-## Organisation du projet
-
-```
-01_data/          → Données brutes et données transformées
-02_notebooks/     → Exploration, économétrie, machine learning, SHAP
-03_fonctions/     → Modules Python (merge, cleaning, feature engineering, modèle, script complet)
-04_model/         → Modèle entraîné sauvegardé
-```
-
-La logique analytique (EDA, économétrie, interprétation) est séparée de la logique métier réutilisable (fonctions Python), afin de garantir :
-
-- modularité,
-- traçabilité,
-- reproductibilité,
-- possibilité d’exécution automatisée.
+L’objectif n’est pas uniquement prédictif : le projet est conçu comme un workflow data science structuré et reproductible, allant de la donnée brute à un modèle interprétable et industrialisable.
 
 ---
 
-## Workflow Data Science
+## Workflow analytique
 
-### 1. Intégration et enrichissement des données
+Le projet suit une logique progressive :
 
-Les annonces immobilières sont enrichies via des jeux de données open data (data.gouv), notamment :
-
-- population et revenu médian (INSEE),
-- indicateurs de délinquance,
-- données touristiques,
-- densité de services (Base Permanente des Équipements),
-- typologies territoriales (rural/urbain, taille d’agglomération).
-
-Cette étape permet de passer d’un dataset transactionnel à un dataset contextualisé territorialement.
-
-Un contrôle qualité systématique est appliqué via Great Expectations pour sécuriser la structure et la cohérence des données.
-
----
-
-### 2. Analyse exploratoire et nettoyage
-
-L’EDA permet :
-
-- d’identifier les distributions,
-- de détecter les valeurs aberrantes,
-- d’analyser les relations avec la variable cible.
-
-Le nettoyage inclut :
-
-- correction des valeurs incohérentes (surface, nombre de pièces),
-- harmonisation des modalités catégorielles,
-- réduction aux variables pertinentes,
-- validations structurelles (unicité, non-nullité, cohérence des formats).
+1. Intégration et enrichissement des données  
+2. EDA et nettoyage  
+3. Contrôle qualité systématique  
+4. Analyse économétrique  
+5. Feature engineering  
+6. Modélisation machine learning  
+7. Interprétabilité  
+8. Exécution complète automatisée  
 
 Chaque étape est validée avant de passer à la suivante.
 
 ---
 
-### 3. Analyse économétrique
+## Structure du repository
 
-Un modèle logit est estimé afin de comprendre les déterminants du prix élevé.
+- `01_data/` → Données brutes et transformées  
+- `02_notebooks/` → Exploration, économétrie, ML, SHAP  
+- `03_fonctions/` → Modules Python (logique métier réutilisable)  
+- `04_model/` → Modèle entraîné sauvegardé  
+- `05_visualisations/` → Graphiques  
 
-Cette phase permet :
+### Détail des notebooks – `02_notebooks/`
 
-- d’identifier les variables statistiquement significatives,
-- d’interpréter les effets marginaux,
-- de détecter des non-linéarités.
+- `01_merge.ipynb` → Intégration des données open data  
+- `02-04_eda.ipynb` → Exploration et nettoyage progressif  
+- `05_econometrics.ipynb` → Modèle logit explicatif  
+- `06_cleaning_post_econometrics.ipynb` → Préparation finale des variables  
+- `07_machine_learning.ipynb` → Pipeline ML et optimisation  
+- `08_shap_interpretation.ipynb` → Analyse SHAP  
+- `09_script_complet.ipynb` → Exécution end-to-end  
 
-Les résultats mettent en évidence le rôle structurant :
+### Logique métier – `03_fonctions/`
 
-- du nombre de pièces,
-- de la surface,
-- du revenu médian local,
-- de la localisation (notamment Paris),
-- de certains indicateurs territoriaux.
+Les notebooks contiennent la logique analytique et les visualisations.  
+La logique métier est implémentée dans des modules Python :
 
-L’économétrie sert ici de socle explicatif et guide le feature engineering.
+- `merge/` → Fusion des données externes  
+- `econometrics/` → Nettoyage et transformations guidées par l’analyse économétrique  
+- `model/logistic_regression.py` → Construction de la pipeline ML (régression logistique pénalisée)  
+- `script_complet/pipeline.py` → Orchestration complète du workflow  
+
+Cette séparation permet :
+
+- Modularité  
+- Réutilisabilité  
+- Reproductibilité  
+- Exécution automatisée  
 
 ---
 
-### 4. Feature Engineering
+## Contrôle qualité
 
-À partir des enseignements précédents :
+Un contrôle qualité via **Great Expectations** est appliqué à chaque étape clé du pipeline :
 
-- centrage des variables numériques,
-- ajout de termes quadratiques,
-- binarisation du nombre de pièces,
-- transformation logarithmique du revenu médian,
-- construction d’indicateurs synthétiques (criminalité, attractivité touristique).
+- validation de structure,  
+- cohérence des types,  
+- absence d’anomalies critiques,  
+- vérifications de contraintes métier et statistiques.
 
-Un dataset final cohérent est ainsi constitué pour la modélisation prédictive.
+L’objectif est de sécuriser la donnée avant toute modélisation.
 
 ---
 
-### 5. Machine Learning
+## Modélisation
 
-Une pipeline scikit-learn complète est implémentée :
+La modélisation repose sur une **régression logistique pénalisée (L2)** intégrée dans une pipeline scikit-learn complète :
 
-- imputation via `IterativeImputer` (estimateur XGBoost),
-- standardisation des variables numériques,
-- encodage One-Hot des variables catégorielles,
-- régression logistique pénalisée L2,
-- optimisation des hyperparamètres via `RandomizedSearchCV`.
+- Imputation des valeurs manquantes (`IterativeImputer`)  
+- Encodage des variables catégorielles en One-Hot  
+- Standardisation des variables numériques  
+- Optimisation des hyperparamètres via `RandomizedSearchCV`  
+- Sauvegarde du modèle final sur disque
 
-#### Performances
+### Performances (indicatives)
 
 - ROC-AUC ≈ 0.90  
 - Average Precision ≈ 0.85  
 - Brier Score ≈ 0.117  
-
-Le modèle présente une excellente capacité de discrimination, une bonne calibration et une stabilité satisfaisante entre train et test.
+- Bonne stabilité train/test  
 
 ---
 
-### 6. Interprétabilité
+## Calibration du modèle
+
+<p align="center">
+  <img src="05_visualisations/courbe_calibration.png" width="600"/>
+</p>
+
+La courbe de calibration montre une bonne adéquation entre probabilités prédites et probabilités observées, ce qui est cohérent avec un Brier Score faible.
+
+---
+
+## Interprétabilité – SHAP
+
+<p align="center">
+  <img src="05_visualisations/beeswarm_plot.png" width="700"/>
+</p>
 
 L’analyse SHAP permet :
 
-- d’identifier les variables les plus influentes globalement,
-- d’analyser le sens des contributions,
-- d’expliquer individuellement les prédictions.
+- d’identifier les variables les plus influentes,  
+- d’analyser le sens des contributions,  
+- de relier les résultats prédictifs à l’analyse économétrique.
 
-Les résultats confirment la cohérence entre approche économétrique et modèle prédictif.
+Les variables liées au revenu médian, au nombre de pièces et à la localisation ressortent comme particulièrement structurantes.
 
 ---
 
 ## Exécution
 
-La pipeline complète peut être exécutée via le script présent dans `03_fonctions/script_complet.py` ou directement depuis le notebook `09_script_complet.ipynb`.
+Le pipeline complet peut être exécuté :
+
+- via le module Python : `03_fonctions/script_complet/pipeline.py`  
+- ou depuis le notebook : `02_notebooks/09_script_complet.ipynb`
 
 Le modèle final est sauvegardé dans :
 
-```
-04_model/housing_logit_model.joblib
-```
+- `04_model/housing_logit_model.joblib`
 
 ---
 
 ## Remarque importante
 
-Le projet n’est pas entièrement clonable en l’état car le fichier suivant est exclu du repository (volume trop important) :
+Le projet n’est pas entièrement clonable en l’état car le fichier suivant est exclu du dépôt (volume important) :
 
-```
-01_data/01_raw/bpe_24.parquet
-```
+- `01_data/01_raw/bpe_24.parquet`
 
-Ce fichier correspond aux données de la Base Permanente des Équipements (BPE) et doit être téléchargé séparément depuis data.gouv pour exécuter la pipeline complète.
+Il correspond aux données de la **Base Permanente des Équipements (BPE)** et doit être téléchargé depuis [data.gouv.fr](https://www.data.gouv.fr/) avant d’exécuter le pipeline complet.
 
 ---
 
 ## Conclusion
 
-Ce projet illustre un workflow data science complet et cohérent :
+Ce projet illustre un workflow data science complet :
 
-- intégration de données open data,
-- contrôle qualité rigoureux,
-- analyse explicative,
-- optimisation prédictive,
-- interprétabilité avancée,
-- automatisation end-to-end.
+- Intégration open data  
+- EDA structurée  
+- Contrôle qualité rigoureux  
+- Analyse économétrique explicative  
+- Pipeline ML optimisée  
+- Interprétabilité avancée  
+- Automatisation de bout en bout  
 
-Il démontre la capacité à structurer un projet depuis la donnée brute jusqu’à un modèle performant, explicable et prêt à être utilisé dans un cadre décisionnel.
+Il met en avant une approche combinant rigueur statistique, structuration du code et robustesse prédictive.
