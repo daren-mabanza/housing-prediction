@@ -37,7 +37,7 @@ Chaque étape est validée avant de passer à la suivante.
 - `02_notebooks/` → Exploration, économétrie, ML, SHAP  
 - `03_fonctions/` → Modules Python (logique métier réutilisable)  
 - `04_model/` → Modèle entraîné sauvegardé  
-- `05_visualisations/` → Graphiques  
+- `05_visualisations/` → Figures utilisées dans le README  
 
 ### Détail des notebooks – `02_notebooks/`
 
@@ -100,13 +100,21 @@ La modélisation repose sur une **régression logistique pénalisée (L2)** int�
 
 ---
 
-## Calibration du modèle
+## Courbes ROC et calibration
+
+<p align="center">
+  <img src="05_visualisations/courbe_roc.png" width="600"/>
+</p>
+
+La courbe ROC montre que le modèle surperforme largement une classification aléatoire, avec une surface sous la courbe (AUC) d’environ 0,90, ce qui traduit une très bonne capacité à discriminer les biens à prix élevé des autres.  
+Les points sont proches de l’axe supérieur gauche, ce qui indique un bon compromis entre taux de vrais positifs et taux de faux positifs sur une large plage de seuils de décision.
 
 <p align="center">
   <img src="05_visualisations/courbe_calibration.png" width="600"/>
 </p>
 
-La courbe de calibration montre une bonne adéquation entre probabilités prédites et probabilités observées, ce qui est cohérent avec un Brier Score faible.
+La courbe de calibration montre une bonne adéquation entre probabilités prédites et probabilités observées, ce qui est cohérent avec un Brier Score faible.  
+Les probabilités produites par le modèle peuvent ainsi être interprétées comme des scores de risque fiables pour la prise de décision métier.
 
 ---
 
@@ -122,7 +130,8 @@ L’analyse SHAP permet :
 - d’analyser le sens des contributions,  
 - de relier les résultats prédictifs à l’analyse économétrique.
 
-Les variables liées au revenu médian, au nombre de pièces et à la localisation ressortent comme particulièrement structurantes.
+Les variables liées au revenu médian, au nombre de pièces et à la localisation ressortent comme particulièrement structurantes.  
+Elles confirment que le modèle capture des effets économiques et territoriaux cohérents avec l’intuition métier sur les marchés immobiliers locaux.
 
 ---
 
