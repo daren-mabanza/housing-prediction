@@ -1,5 +1,5 @@
 # Projet de Classification de Biens Immobiliers  
-### Workflow Data Science Complet – De la donnée brute au modèle interprétable
+### Workflow Data Science Complet : De la donnée brute au modèle interprétable
 
 ## Présentation
 
